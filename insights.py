@@ -63,50 +63,50 @@ Be direct. No fluff. Do not use any emojis."""}
 Identify:
 ### Market Gap
 What price range, feature, or customer segment is underserved? Be specific with numbers.
-
+ 
 ### Competitor Weaknesses
 Pick 2-3 top products. What specific weakness can a new seller exploit? (Look at ratings below 4.5, missing features in titles, price gaps)
-
+ 
 ### Entry Strategy
 One specific, actionable move a new seller should make to win this market.
-
+ 
 Be ruthlessly specific. No generic advice. Do not use any emojis."""}
         ],
         temperature=0.7, max_tokens=500
     )
-
+ 
     # --- Call 3: Listing blueprint ---
     r3 = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "You are a Pixii listing optimization expert. You help Amazon sellers write listings that convert."},
             {"role": "user", "content": f"""Based on the top 10 products in {category_name}:
-
+ 
 {product_text}
-
+ 
 Generate a listing blueprint for a NEW seller entering this market:
-
+ 
 ### Listing Blueprint
-**Title must include keywords:** (list 4-5 exact keywords from top sellers)
-**Price to launch at:** (specific number, undercut strategy)
-**Lead image must show:** (2-3 specific visual elements that top sellers use)
-**Bullet point 1 must highlight:** (top buying driver)
-**Review target before scaling ads:** (specific number based on competition)
-
-### Visual Strategy
-What should the listing LOOK like to beat the competition? Describe:
-- Hero image style
-- Lifestyle image concept
-- Key text overlay to include
-
-Keep it punchy and actionable. Do not use any emojis."""}
+Write these as clean, direct recommendations:
+- Top 5 keywords to include in the title
+- Exact launch price with reasoning
+- What the lead image must show (3 specifics)
+- The single strongest bullet point to lead with
+- How many reviews to get before scaling ads
+ 
+### Visual Strategy 
+Describe exactly what the listing visuals should look like:
+- Hero image: background, lighting, product angle
+- Lifestyle image: scene, people, context
+- Text overlay: exact words to use on the image
+ 
+Be specific and direct. No meta-instructions. Do not use any emojis."""}
         ],
         temperature=0.7, max_tokens=500
     )
-
+ 
     return (
         r1.choices[0].message.content,
         r2.choices[0].message.content,
         r3.choices[0].message.content
     )
-

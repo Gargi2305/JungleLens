@@ -1,7 +1,5 @@
 
 
-#-----VERSION 2.0 (after redesign)-----
-
 import streamlit as st
 import pandas as pd
 import os
@@ -73,8 +71,6 @@ with col1:
 with col2:
     analyze = st.button("🔍 Analyze Market", use_container_width=True)
 
-# if not url and not analyze:
-#     st.markdown('<div style="color:#be6ae6; font-size:0.9rem; margin-top:8px;">● Paste a URL above to get started. Example: https://www.amazon.com/gp/bestsellers/kitchen</div>', unsafe_allow_html=True)
 
 
 if not url and not analyze:
@@ -141,9 +137,6 @@ if analyze and url:
     display_df['Reviews'] = display_df['Reviews'].apply(lambda x: f"{x:,}")
     display_df['Est. Sales/mo'] = display_df['Est. Sales/mo'].apply(lambda x: f"{x:,}")
     display_df['Est. Revenue/mo ($)'] = display_df['Est. Revenue/mo ($)'].apply(lambda x: f"${x:,.0f}")
-    # display_df['Est. Revenue/mo ($)'] = display_df['Est. Revenue/mo ($)'].apply(
-    #     lambda x: f"${x:,.0f}" if x > 0 else "N/A"
-    # )
     st.dataframe(display_df, use_container_width=True, hide_index=True)
 
     st.caption("⚠️ Revenue estimates are derived from rank-based heuristics and are for relative comparison only.")
@@ -156,13 +149,6 @@ if analyze and url:
         'Monthly Revenue ($)': [p['monthly_revenue'] for p in products]
     })
 
-    # chart_df = pd.DataFrame({
-    #     'Product': [f"#{p['rank']} {p['title'][:22]}..." for p in products],
-    #     'Monthly Revenue ($)': [
-    #         p.get('monthly_revenue') or 0
-    #         for p in products
-    #     ]
-    # })
     st.bar_chart(chart_df.set_index('Product'))
 
     # Step 2: AI Analysis (3 calls)
@@ -191,10 +177,6 @@ if analyze and url:
             st.stop()
 
     # Box 1: Core insights
-    # st.markdown("### Key Market Insights")
-    # st.markdown(f'<div class="section-box">', unsafe_allow_html=True)
-    # st.markdown(insights)
-    # st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown("### Key Market Insights")
 
@@ -240,19 +222,20 @@ if analyze and url:
     clean_insights = re.sub(r'\d+\s*[-–]\s*\d+', '', clean_insights)
 
     st.markdown(f'<div class="section-box">', unsafe_allow_html=True)
-    st.markdown(clean_insights)
+    safe_insights = clean_insights.replace("$", "\\$")
+    st.markdown(safe_insights)
     st.markdown('</div>', unsafe_allow_html=True)
 
     # Box 2: Market gap
     st.markdown("### Market Gap & Competitor Weaknesses")
     st.markdown(f'<div class="gap-box">', unsafe_allow_html=True)
-    st.markdown(gap)
+    st.markdown(gap.replace("$", "\\$"))
     st.markdown('</div>', unsafe_allow_html=True)
 
     # Box 3: Listing blueprint
     st.markdown("### Listing Blueprint to Win This Market")
     st.markdown(f'<div class="blueprint-box">', unsafe_allow_html=True)
-    st.markdown(blueprint)
+    st.markdown(blueprint.replace("$", "\\$"))
     st.markdown('</div>', unsafe_allow_html=True)
 
     # Product Cards
@@ -272,8 +255,6 @@ if analyze and url:
                     st.markdown(f"**Reviews:** {p['reviews']:,}")
                     st.markdown(f"**Est. Monthly Sales:** {p['monthly_sales']:,} units")
                     st.markdown(f"**Est. Monthly Revenue:** ${((p['monthly_revenue'] or 0)):,.0f}")
-                    # rev = p['monthly_revenue']
-                    # st.markdown(f"**Est. Monthly Revenue:** ${rev:,.0f}" if rev > 0 else "**Est. Monthly Revenue:** N/A")
                     if p['asin']:
                         st.markdown(f"[View on Amazon →](https://www.amazon.com/dp/{p['asin']})")
 
