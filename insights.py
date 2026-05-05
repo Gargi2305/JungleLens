@@ -93,7 +93,7 @@ Generate a listing blueprint for a NEW seller entering this market:
 **Bullet point 1 must highlight:** (top buying driver)
 **Review target before scaling ads:** (specific number based on competition)
 
-### Visual Strategy (for Pixii)
+### Visual Strategy
 What should the listing LOOK like to beat the competition? Describe:
 - Hero image style
 - Lifestyle image concept
